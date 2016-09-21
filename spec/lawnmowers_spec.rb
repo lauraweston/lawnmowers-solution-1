@@ -8,6 +8,15 @@ class Lawn
   end
 end
 
+class Lawnmower
+  attr_reader :x_coordinate, :y_coordinate, :orientation
+  def initialize
+    @x_coordinate = 0
+    @y_coordinate = 0
+    @orientation = "N"
+  end
+end
+
 describe 'lawnmowers' do
 
   describe 'lawn' do
@@ -33,6 +42,13 @@ describe 'lawnmowers' do
     end
   end
 
-
+  describe 'lawnmower' do
+    it 'can create a lawnmower with position "0 0 N"' do
+      lawnmower = Lawnmower.new
+      expect(lawnmower.x_coordinate).to eq 0
+      expect(lawnmower.y_coordinate).to eq 0
+      expect(lawnmower.orientation).to eq "N"
+    end
+  end
 
 end
