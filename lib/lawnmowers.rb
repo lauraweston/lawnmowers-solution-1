@@ -21,6 +21,6 @@ class Lawnmower
   end
 
   def turn_right
-    @orientation = @@compass[@@compass.index(@orientation) + 1]
+    @orientation = @@compass[@@compass.index(@orientation) - 3]
   end
 end

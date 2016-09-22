@@ -47,15 +47,45 @@ describe 'lawnmowers' do
   end
 
   describe 'lawnmower orientation' do
-    it 'can turn 90 degrees to the left' do
+    it 'when N, can turn 90 degrees to the left' do
       lawnmower = Lawnmower.new(0, 0, "N")
       lawnmower.turn_left
       expect(lawnmower.orientation).to eq "W"
     end
-    it 'can turn 90 degrees to the right' do
+    it 'when N, can turn 90 degrees to the right' do
       lawnmower = Lawnmower.new(0, 0, "N")
       lawnmower.turn_right
       expect(lawnmower.orientation).to eq "E"
+    end
+    it 'when W, can turn 90 degrees to the left' do
+      lawnmower = Lawnmower.new(0, 0, "W")
+      lawnmower.turn_left
+      expect(lawnmower.orientation).to eq "S"
+    end
+    it 'when W, can turn 90 degrees to the right' do
+      lawnmower = Lawnmower.new(0, 0, "W")
+      lawnmower.turn_right
+      expect(lawnmower.orientation).to eq "N"
+    end
+    it 'when E, can turn 90 degrees to the left' do
+      lawnmower = Lawnmower.new(0, 0, "E")
+      lawnmower.turn_left
+      expect(lawnmower.orientation).to eq "N"
+    end
+    it 'when E, can turn 90 degrees to the right' do
+      lawnmower = Lawnmower.new(0, 0, "E")
+      lawnmower.turn_right
+      expect(lawnmower.orientation).to eq "S"
+    end
+    it 'when S, can turn 90 degrees to the left' do
+      lawnmower = Lawnmower.new(0, 0, "S")
+      lawnmower.turn_left
+      expect(lawnmower.orientation).to eq "E"
+    end
+    it 'when S, can turn 90 degrees to the right' do
+      lawnmower = Lawnmower.new(0, 0, "S")
+      lawnmower.turn_right
+      expect(lawnmower.orientation).to eq "W"
     end
   end
 
