@@ -23,4 +23,13 @@ class Lawnmower
   def turn_right
     @orientation = @@compass[@@compass.index(@orientation) - 3]
   end
+
+  def move
+    case @orientation
+    when "N" then @y_coordinate += 1
+    when "S" then @y_coordinate -= 1
+    when "E" then @x_coordinate += 1
+    when "W" then @x_coordinate -= 1
+    end
+  end
 end

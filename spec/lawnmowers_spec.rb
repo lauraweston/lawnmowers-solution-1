@@ -89,4 +89,30 @@ describe 'lawnmowers' do
     end
   end
 
+  describe 'lawnmower moves' do
+    it 'can move one grid forward when facing N' do
+      lawnmower = Lawnmower.new(0, 0, "N")
+      lawnmower.move
+      expect(lawnmower.x_coordinate).to eq 0
+      expect(lawnmower.y_coordinate).to eq 1
+    end
+    it 'can move one grid forward when facing S' do
+      lawnmower = Lawnmower.new(1, 1, "S")
+      lawnmower.move
+      expect(lawnmower.x_coordinate).to eq 1
+      expect(lawnmower.y_coordinate).to eq 0
+    end
+    it 'can move one grid forward when facing E' do
+      lawnmower = Lawnmower.new(1, 1, "E")
+      lawnmower.move
+      expect(lawnmower.x_coordinate).to eq 2
+      expect(lawnmower.y_coordinate).to eq 1
+    end
+    it 'can move one grid forward when facing W' do
+      lawnmower = Lawnmower.new(1, 1, "W")
+      lawnmower.move
+      expect(lawnmower.x_coordinate).to eq 0
+      expect(lawnmower.y_coordinate).to eq 1
+    end
+  end
 end
