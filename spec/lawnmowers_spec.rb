@@ -1,22 +1,5 @@
 require 'lawnmowers'
 
-class Lawn
-  attr_reader :width, :length
-  def initialize(x, y)
-    @width = x
-    @length = y
-  end
-end
-
-class Lawnmower
-  attr_reader :x_coordinate, :y_coordinate, :orientation
-  def initialize
-    @x_coordinate = 0
-    @y_coordinate = 0
-    @orientation = "N"
-  end
-end
-
 describe 'lawnmowers' do
 
   describe 'lawn' do
@@ -42,13 +25,33 @@ describe 'lawnmowers' do
     end
   end
 
-  describe 'lawnmower' do
+  describe 'lawnmower position' do
     it 'can create a lawnmower with position "0 0 N"' do
-      lawnmower = Lawnmower.new
+      lawnmower = Lawnmower.new(0, 0, "N")
       expect(lawnmower.x_coordinate).to eq 0
       expect(lawnmower.y_coordinate).to eq 0
       expect(lawnmower.orientation).to eq "N"
     end
+    it 'can create a lawnmower with position "1 2 N"' do
+      lawnmower = Lawnmower.new(1, 2, "N")
+      expect(lawnmower.x_coordinate).to eq 1
+      expect(lawnmower.y_coordinate).to eq 2
+      expect(lawnmower.orientation).to eq "N"
+    end
+    it 'can create a lawnmower with position "3 3 E"' do
+      lawnmower = Lawnmower.new(3, 3, "E")
+      expect(lawnmower.x_coordinate).to eq 3
+      expect(lawnmower.y_coordinate).to eq 3
+      expect(lawnmower.orientation).to eq "E"
+    end
   end
 
+  describe 'lawnmower orientation' do
+    it 'can turn 90 degrees to the left' do
+      lawnmower = Lawnmower.new(0, 0, "N")
+      lawnmower.turn_left
+      expect(lawnmower.orientation).to eq "W"
+    end
+  end
+  
 end
