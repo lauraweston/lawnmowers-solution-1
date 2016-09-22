@@ -52,6 +52,11 @@ describe 'lawnmowers' do
       lawnmower.turn_left
       expect(lawnmower.orientation).to eq "W"
     end
+    it 'can turn 90 degrees to the right' do
+      lawnmower = Lawnmower.new(0, 0, "N")
+      lawnmower.turn_right
+      expect(lawnmower.orientation).to eq "E"
+    end
   end
-  
+
 end
