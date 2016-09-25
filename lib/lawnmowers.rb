@@ -55,7 +55,7 @@ class Parser
 end
 
 class Controller
-  attr_reader :lawn, :lawn_size, :lawnmower_x_coordinate, :lawnmower_y_coordinate,
+  attr_reader :lawn, :lawnmower, :lawn_size, :lawnmower_x_coordinate, :lawnmower_y_coordinate,
               :lawnmower_orientation, :directions
   def initialize(input)
     @input = input
@@ -67,5 +67,9 @@ class Controller
 
   def create_lawn
     @lawn = Lawn.new(*@lawn_size)
+  end
+
+  def create_lawnmower
+    @lawnmower = Lawnmower.new(@lawn, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation)
   end
 end
