@@ -34,3 +34,21 @@ class Lawnmower
     end
   end
 end
+
+class Parser
+  attr_reader :lawn_size, :lawnmower_x_coordinate, :lawnmower_y_coordinate,
+              :lawnmower_orientation, :directions
+
+  def initialize(input)
+    @input = input
+  end
+
+  def parse
+    lawn, lawnmower_position, directions = @input.split(/\n/)
+    @lawn_size = lawn.split(" ").map {|n| n.to_i}
+    x, y, @lawnmower_orientation = lawnmower_position.split(" ")
+    @lawnmower_x_coordinate = x.to_i
+    @lawnmower_y_coordinate = y.to_i
+    @directions = directions.split("")
+  end
+end

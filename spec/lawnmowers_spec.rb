@@ -150,3 +150,15 @@ describe Lawnmower do
     end
   end
 end
+
+describe 'parser' do
+  it 'can take a set of instructions' do
+    parser = Parser.new("5 5\n1 2 N\nLML")
+    parser.parse
+    expect(parser.lawn_size).to eq [5, 5]
+    expect(parser.lawnmower_x_coordinate).to eq 1
+    expect(parser.lawnmower_y_coordinate).to eq 2
+    expect(parser.lawnmower_orientation).to eq "N"
+    expect(parser.directions).to eq ["L", "M", "L"]
+  end
+end
