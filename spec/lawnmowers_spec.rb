@@ -156,14 +156,18 @@ describe 'parser' do
     parser = Parser.new("5 5\n1 2 N\nLML")
     parser.parse
     expect(parser.lawn_size).to eq [5, 5]
-    expect(parser.lawnmower_x_coordinate).to eq 1
-    expect(parser.lawnmower_y_coordinate).to eq 2
-    expect(parser.lawnmower_orientation).to eq "N"
-    expect(parser.directions).to eq ["L", "M", "L"]
+    expect(parser.lawnmowers[0][:x]).to eq 1
+    expect(parser.lawnmowers[0][:y]).to eq 2
+    expect(parser.lawnmowers[0][:orientation]).to eq "N"
+    expect(parser.lawnmowers[0][:directions]).to eq ["L", "M", "L"]
   end
   it 'has a parse method which returns an array' do
     parser = Parser.new("5 5\n1 2 N\nLML")
-    expect(parser.parse).to eq [[5,5], 1, 2, "N", ["L", "M", "L"]]
+    expect(parser.parse).to eq [[5,5], [{x: 1, y: 2, orientation: "N", directions: ["L", "M", "L"]}]]
+  end
+  it 'can parse instructions for multiple lawnmowers' do
+    parser = Parser.new("5 5\n1 2 N\nLML\n3 3 E\nMMR")
+    expect(parser.parse).to eq [[5,5], [{x: 1, y: 2, orientation: "N", directions: ["L", "M", "L"]}, {x: 3, y: 3, orientation: "E", directions: ["M", "M", "R"]}]]
   end
 end
 
@@ -172,10 +176,10 @@ describe 'controller' do
     controller = Controller.new("5 5\n1 2 N\nLML")
     controller.execute
     expect(controller.lawn_size).to eq [5, 5]
-    expect(controller.lawnmower_x_coordinate).to eq 1
-    expect(controller.lawnmower_y_coordinate).to eq 2
-    expect(controller.lawnmower_orientation).to eq "N"
-    expect(controller.directions).to eq ["L", "M", "L"]
+    expect(controller.lawnmowers_data[0][:x]).to eq 1
+    expect(controller.lawnmowers_data[0][:y]).to eq 2
+    expect(controller.lawnmowers_data[0][:orientation]).to eq "N"
+    expect(controller.lawnmowers_data[0][:directions]).to eq ["L", "M", "L"]
   end
   it 'can create a lawn' do
     controller = Controller.new("5 5\n1 2 N\nLML")
@@ -185,21 +189,23 @@ describe 'controller' do
     expect(controller.lawn.length).to eq 5
   end
   it 'can create a lawnmower' do
-    controller = Controller.new("5 5\n1 2 N")
+    controller = Controller.new("5 5\n1 2 N\nLML")
     controller.execute
-    expect(controller.lawnmower.x_coordinate).to eq 1
-    expect(controller.lawnmower.y_coordinate).to eq 2
-    expect(controller.lawnmower.orientation).to eq "N"
+    expect(controller.lawnmowers).not_to be_empty
   end
   it 'can direct a lawnmower' do
     controller = Controller.new("5 5\n1 2 N\nLML")
     controller.execute
-    expect(controller.lawnmower.x_coordinate).to eq 0
-    expect(controller.lawnmower.y_coordinate).to eq 2
-    expect(controller.lawnmower.orientation).to eq "S"
+    expect(controller.lawnmowers[0].x_coordinate).to eq 0
+    expect(controller.lawnmowers[0].y_coordinate).to eq 2
+    expect(controller.lawnmowers[0].orientation).to eq "S"
   end
   it 'takes string input and outputs lawnmower final coordinates' do
     controller = Controller.new("5 5\n1 2 N\nLML")
     expect(controller.execute).to eq "0 2 S"
+  end
+  it 'can direct multiple lawnmowers' do
+    controller = Controller.new("5 5\n1 2 N\nLMLMLMLMM\n3 3 E\nMMRMMRMRRM")
+    expect(controller.execute).to eq "1 3 N\n5 1 E"
   end
 end

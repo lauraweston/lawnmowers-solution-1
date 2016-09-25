@@ -36,27 +36,30 @@ class Lawnmower
 end
 
 class Parser
-  attr_reader :lawn_size, :lawnmower_x_coordinate, :lawnmower_y_coordinate,
-              :lawnmower_orientation, :directions
+  attr_reader :lawn_size, :lawnmowers
 
   def initialize(input)
     @input = input
   end
 
   def parse
-    lawn, lawnmower_position, directions = @input.split(/\n/)
-    @lawn_size = lawn.split(" ").map {|n| n.to_i}
-    x, y, @lawnmower_orientation = lawnmower_position.split(" ")
-    @lawnmower_x_coordinate = x.to_i
-    @lawnmower_y_coordinate = y.to_i
-    @directions = directions.nil? ? [] : directions.split("")
-    [@lawn_size, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation, @directions]
+    input_lines = @input.split(/\n/)
+    @lawn_size = input_lines[0].split(" ").map {|n| n.to_i}
+    @lawnmowers = []
+    i = 1
+    while i < input_lines.length
+      x, y, orientation = input_lines[i].split(" ")
+      directions = input_lines[i+1].split("")
+      @lawnmowers << { x: x.to_i, y: y.to_i, orientation: orientation, directions: directions }
+      i += 2
+    end
+    [@lawn_size, @lawnmowers]
   end
 end
 
 class Controller
-  attr_reader :lawn, :lawnmower, :lawn_size, :lawnmower_x_coordinate, :lawnmower_y_coordinate,
-              :lawnmower_orientation, :directions
+  attr_reader :lawn, :lawnmowers_data, :lawn_size, :lawnmowers
+
   def initialize(input)
     @input = input
   end
@@ -64,33 +67,36 @@ class Controller
   def execute
     parse
     create_lawn
-    create_lawnmower
-    direct_lawnmower
+    @lawnmowers = @lawnmowers_data.map do |data|
+      lawnmower = create_lawnmower(data)
+      direct_lawnmower(lawnmower, data[:directions])
+    end
+    @lawnmowers.collect { |lawnmower| "#{lawnmower.x_coordinate} #{lawnmower.y_coordinate} #{lawnmower.orientation}" }.join("\n")
   end
 
   def parse
-    @lawn_size, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation, @directions = Parser.new(@input).parse
+    @lawn_size, @lawnmowers_data = Parser.new(@input).parse
   end
 
   def create_lawn
     @lawn = Lawn.new(*@lawn_size)
   end
 
-  def create_lawnmower
-    @lawnmower = Lawnmower.new(@lawn, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation)
+  def create_lawnmower(lawnmower)
+    Lawnmower.new(@lawn, lawnmower[:x], lawnmower[:y], lawnmower[:orientation])
   end
 
-  def direct_lawnmower
-    if !@directions.empty?
-      @directions.each do |direction|
+  def direct_lawnmower(lawnmower, directions)
+    if !directions.empty?
+      directions.each do |direction|
         case direction
-        when "L" then @lawnmower.turn_left
-        when "R" then @lawnmower.turn_right
-        when "M" then @lawnmower.move
+        when "L" then lawnmower.turn_left
+        when "R" then lawnmower.turn_right
+        when "M" then lawnmower.move
         end
       end
     end
-    "#{@lawnmower.x_coordinate} #{@lawnmower.y_coordinate} #{@lawnmower.orientation}" 
+    lawnmower
   end
 
 end
