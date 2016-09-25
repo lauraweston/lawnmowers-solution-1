@@ -61,6 +61,12 @@ class Controller
     @input = input
   end
 
+  def execute
+    parse
+    create_lawn
+    create_lawnmower
+  end
+  
   def parse
     @lawn_size, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation, @directions = Parser.new(@input).parse
   end
@@ -72,4 +78,5 @@ class Controller
   def create_lawnmower
     @lawnmower = Lawnmower.new(@lawn, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation)
   end
+
 end

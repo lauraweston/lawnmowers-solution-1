@@ -170,7 +170,7 @@ end
 describe 'controller' do
   it 'can parse a string' do
     controller = Controller.new("5 5\n1 2 N\nLML")
-    controller.parse
+    controller.execute
     expect(controller.lawn_size).to eq [5, 5]
     expect(controller.lawnmower_x_coordinate).to eq 1
     expect(controller.lawnmower_y_coordinate).to eq 2
@@ -179,17 +179,14 @@ describe 'controller' do
   end
   it 'can create a lawn' do
     controller = Controller.new("5 5\n1 2 N\nLML")
-    controller.parse
-    controller.create_lawn
+    controller.execute
     expect(controller.lawn_size).to eq [5, 5]
     expect(controller.lawn.width).to eq 5
     expect(controller.lawn.length).to eq 5
   end
   it 'can create a lawnmower' do
     controller = Controller.new("5 5\n1 2 N\nLML")
-    controller.parse
-    controller.create_lawn
-    controller.create_lawnmower
+    controller.execute
     expect(controller.lawnmower.x_coordinate).to eq 1
     expect(controller.lawnmower.y_coordinate).to eq 2
     expect(controller.lawnmower.orientation).to eq "N"
