@@ -161,4 +161,29 @@ describe 'parser' do
     expect(parser.lawnmower_orientation).to eq "N"
     expect(parser.directions).to eq ["L", "M", "L"]
   end
+  it 'has a parse method which returns an array' do
+    parser = Parser.new("5 5\n1 2 N\nLML")
+    expect(parser.parse).to eq [[5,5], 1, 2, "N", ["L", "M", "L"]]
+  end
+end
+
+describe 'controller' do
+  it 'can parse a string' do
+    controller = Controller.new("5 5\n1 2 N\nLML")
+    controller.parse
+    expect(controller.lawn_size).to eq [5, 5]
+    expect(controller.lawnmower_x_coordinate).to eq 1
+    expect(controller.lawnmower_y_coordinate).to eq 2
+    expect(controller.lawnmower_orientation).to eq "N"
+    expect(controller.directions).to eq ["L", "M", "L"]
+  end
+  it 'can create a lawn' do
+    controller = Controller.new("5 5\n1 2 N\nLML")
+    controller.parse
+    controller.create_lawn
+    expect(controller.lawn_size).to eq [5, 5]
+    expect(controller.lawn.width).to eq 5
+    expect(controller.lawn.length).to eq 5
+  end
+
 end

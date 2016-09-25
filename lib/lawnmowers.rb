@@ -50,5 +50,22 @@ class Parser
     @lawnmower_x_coordinate = x.to_i
     @lawnmower_y_coordinate = y.to_i
     @directions = directions.split("")
+    [@lawn_size, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation, @directions]
+  end
+end
+
+class Controller
+  attr_reader :lawn, :lawn_size, :lawnmower_x_coordinate, :lawnmower_y_coordinate,
+              :lawnmower_orientation, :directions
+  def initialize(input)
+    @input = input
+  end
+
+  def parse
+    @lawn_size, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation, @directions = Parser.new(@input).parse
+  end
+
+  def create_lawn
+    @lawn = Lawn.new(*@lawn_size)
   end
 end
