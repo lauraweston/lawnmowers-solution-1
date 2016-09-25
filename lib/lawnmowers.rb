@@ -49,7 +49,7 @@ class Parser
     x, y, @lawnmower_orientation = lawnmower_position.split(" ")
     @lawnmower_x_coordinate = x.to_i
     @lawnmower_y_coordinate = y.to_i
-    @directions = directions.split("")
+    @directions = directions.nil? ? [] : directions.split("")
     [@lawn_size, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation, @directions]
   end
 end
@@ -65,8 +65,9 @@ class Controller
     parse
     create_lawn
     create_lawnmower
+    direct_lawnmower
   end
-  
+
   def parse
     @lawn_size, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation, @directions = Parser.new(@input).parse
   end
@@ -77,6 +78,19 @@ class Controller
 
   def create_lawnmower
     @lawnmower = Lawnmower.new(@lawn, @lawnmower_x_coordinate, @lawnmower_y_coordinate, @lawnmower_orientation)
+  end
+
+  def direct_lawnmower
+    if !@directions.empty?
+      @directions.each do |direction|
+        case direction
+        when "L" then @lawnmower.turn_left
+        when "R" then @lawnmower.turn_right
+        when "M" then @lawnmower.move
+        end
+      end
+    end
+    "#{@lawnmower.x_coordinate} #{@lawnmower.y_coordinate} #{@lawnmower.orientation}" 
   end
 
 end
